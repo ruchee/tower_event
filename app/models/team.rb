@@ -38,6 +38,6 @@ class Team < ApplicationRecord
   end
 
   def new_create_event
-    Event.create_new(uid: self.user_id, a: 'create', amodel: 'Team', aid: self.id, pid: nil, tid: self.id)
+    Event.create_new(uid: self.user_id, a: 'create', amodel: 'Team', aid: self.id, aname: self.name, pid: nil, tid: self.id)
   end
 end

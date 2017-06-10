@@ -35,7 +35,7 @@ class Todo < ApplicationRecord
   private
 
   def new_create_event
-    Event.create_new(uid: self.user_id, a: 'create', amodel: 'Todo', aid: self.id, pid: self.project_id,
+    Event.create_new(uid: self.user_id, a: 'create', amodel: 'Todo', aid: self.id, aname: self.name, pid: self.project_id,
                      tid: Project.find(self.project_id)&.team_id)
   end
 end

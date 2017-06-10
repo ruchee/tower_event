@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170609013800) do
+ActiveRecord::Schema.define(version: 20170610095041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 20170609013800) do
     t.uuid "team_id", null: false, comment: "所属团队ID"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "content", comment: "事件描述"
+    t.string "action_name", null: false, comment: "动作关联名称"
     t.index ["project_id"], name: "index_events_on_project_id"
     t.index ["team_id"], name: "index_events_on_team_id"
     t.index ["user_id"], name: "index_events_on_user_id"

@@ -6,21 +6,17 @@ t1 = Team.create(user_id: u1.id, name: '临时团队')
 
 # 团队加人
 u2 = User.create(email: 'lisi@example.com', nickname: '李四', avatar: 'https://avatar.tower.im/cd86329a6637421dbefa4ef0f7117bee')
-u3 = User.create(email: 'wangwu@example.com', nickname: '王五', avatar: 'https://avatar.tower.im/cd86329a6637421dbefa4ef0f7117bee')
+u3 = User.create(email: 'wangwu@example.com', nickname: '王五', avatar: 'https://avatar.tower.im/36c2e45ea2d4444fa2976f97ed968d00')
 t1.add_member(u2.id)
 t1.add_member(u3.id)
 
-# 创建项目
-p1 = t1.projects.create(user_id: u1.id, name: '第一个项目')
-p2 = t1.projects.create(user_id: u2.id, name: '第二个项目')
-p3 = t1.projects.create(user_id: u3.id, name: '第三个项目')
-
-# 创建任务
+# 创建项目和任务
 3.times do |n|
   num = n + 1
-  p1.todos.create(user_id: u1.id, name: "第一个项目下的第#{num}个任务")
-  p2.todos.create(user_id: u2.id, name: "第二个项目下的第#{num}个任务")
-  p3.todos.create(user_id: u1.id, name: "第三个项目下的第#{num}个任务")
+  p1 = t1.projects.create(user_id: u1.id, name: "第#{num}个项目")
+  p1.todos.create(user_id: u1.id, name: "第#{num}个项目下的第1个任务")
+  p1.todos.create(user_id: u1.id, name: "第#{num}个项目下的第2个任务")
+  p1.todos.create(user_id: u1.id, name: "第#{num}个项目下的第3个任务")
 end
 
 #----------------------------------------------------------------------
@@ -28,9 +24,36 @@ end
 # 任务相关处理公用方法
 def todo_common(user, todo, action, update_info)
   Todo.transaction do
+    event_info = {
+      uid: user.id,
+      a: action,
+      amodel: 'Todo',
+      aid: todo.id,
+      aname: todo.name,
+      content: nil,
+      pid: todo.project_id,
+      tid: Project.find(todo.project_id)&.team_id
+    }
+
+    if action == 'assign'
+      assignee = User.find(update_info[:assignee]).nickname
+      event_info[:content] = "给 #{assignee} 指派了任务"
+    elsif action == 'update_assignee'
+      old_assignee = User.find(Todo.find(todo.id).assignee).nickname
+      new_assignee = User.find(update_info[:assignee]).nickname
+      event_info[:content] = "把 #{old_assignee} 的任务指派给 #{new_assignee}"
+    elsif action == 'update_due_date'
+      old_due_date = Todo.find(todo.id).due_date
+      old_due_date = old_due_date.blank? ? '没有截止时间' : "#{old_due_date.month}月#{old_due_date.day}日"
+
+      new_due_date = update_info[:due_date]
+      new_due_date = new_due_date.blank? ? '没有截止时间' : "#{new_due_date.month}月#{new_due_date.day}日"
+
+      event_info[:content] = "将任务完成时间从 #{old_due_date} 修改为 #{new_due_date}"
+    end
+
     todo.update(update_info)
-    Event.create_new(uid: user.id, a: action, amodel: 'Todo', aid: todo.id, pid: todo.project_id,
-                     tid: Project.find(todo.project_id)&.team_id)
+    Event.create_new(event_info)
   end
 end
 
@@ -43,13 +66,13 @@ todo_common(u3, Todo.last, 'destroy', status: Todo.statuses['deleted'])
 todo_common(u2, Todo.last, 'complete', status: Todo.statuses['done'])
 
 # 张三把任务指派给王五
-todo_common(u1, Todo.last, 'assign', assignee: u3.id)
+todo_common(u1, Todo.first, 'assign', assignee: u3.id)
 
 # 张三修改任务完成者为李四
-todo_common(u1, Todo.last, 'update_assignee', assignee: u2.id)
+todo_common(u1, Todo.first, 'update_assignee', assignee: u2.id)
 
 # 张三修改任务完成时间为七天后
-todo_common(u1, Todo.last, 'update_due_date', due_date: Time.now + 7.days)
+todo_common(u1, Todo.first, 'update_due_date', due_date: Time.now + 7.days)
 
 #----------------------------------------------------------------------
 
@@ -57,7 +80,7 @@ todo_common(u1, Todo.last, 'update_due_date', due_date: Time.now + 7.days)
 todo_ids = Todo.ids
 user_ids = User.ids
 
-3.times do |n|
+30.times do |n|
   num = n + 1
   parent_comment = Comment.create(subject_model: 'Todo', subject_id: todo_ids.sample, user_id: user_ids.sample, content: "第#{num}条评论")
   Comment.create(

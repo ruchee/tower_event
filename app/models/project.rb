@@ -33,6 +33,6 @@ class Project < ApplicationRecord
   end
 
   def new_create_event
-    Event.create_new(uid: self.user_id, a: 'create', amodel: 'Project', aid: self.id, pid: self.id, tid: self.team_id)
+    Event.create_new(uid: self.user_id, a: 'create', amodel: 'Project', aid: self.id, aname: self.name, pid: self.id, tid: self.team_id)
   end
 end

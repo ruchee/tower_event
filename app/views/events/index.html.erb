@@ -2,67 +2,67 @@
 
 <div class="team-events">
 
-  <div class="events-day weekend" data-absdate="2017-06-10T00:00:00+08:00">
-    <h4 class="events-day-title">今</h4>
-    <div class="events-day-content">
+  <% pre_date = nil %>
+  <% pre_pname = nil %>
+  <% @data.each do |item| %>
+
+    <% if pre_date != item[:date] %>
+      <% unless pre_date.nil? %></div></div></div><% end %>
+
+      <div class="events-day weekend" data-absdate="2017-06-10T00:00:00+08:00">
+        <h4 class="events-day-title"><%= raw(item[:show_date]) %></h4>
+        <div class="events-day-content">
+
+      <% pre_pname = nil %>
+      <% pre_date = item[:date] %>
+    <% end %>
+
+    <% if pre_pname != item[:pname] %>
+      <% unless pre_pname.nil? %></div><% end %>
+
       <div class="events-ancestor" data-ancestor-guid="bf5ca523adbf4dbaa2d64e29bdadf0cb">
         <h5 class="events-ancestor-title">
-          <a href="/projects/bf5ca523adbf4dbaa2d64e29bdadf0cb" target="_blank" title="熟悉 Tower">熟悉 Tower</a>
+          <% if item[:pid] %>
+            <a href="/projects/<%= item[:pid] %>" target="_blank" title="<%= item[:pname] %>"><%= item[:pname] %></a>
+          <% else %>
+            <a href="/teams/<%= @current_team.id %>" target="_blank" title="<%= @current_team.name %>"><%= @current_team.name %></a>
+          <% end %>
         </h5>
-        <div class="event event-common event-todo-del" id="event-122232001" data-ancestor-guid="bf5ca523adbf4dbaa2d64e29bdadf0cb" data-ancestor-name="熟悉 Tower" data-ancestor-url="/projects/bf5ca523adbf4dbaa2d64e29bdadf0cb">
 
-          <a href="/members/3d0dda52107b4b3da59a8f282af54534" class="from" target="_blank"><img alt="Ruchee" class="avatar" src="https://avatar.tower.im/dbc50dc94a73422cab94729d4fd9f8aa"></a>
-          <i class="icon-event"></i>
+      <% pre_pname = item[:pname] %>
+    <% end %>
 
-          <div class="event-main">
-            <div class="event-head">
-              <a href="#event-122232001" data-created-at="2017-06-10T12:35:21+08:00" class="event-created-at">12:35</a>
-              <span class="event-actor">
-                <a href="/members/3d0dda52107b4b3da59a8f282af54534" class="link-member" target="_blank">Ruchee</a>
+    <% if pre_date == item[:date] %>
+      <div class="event event-common event-todo-del" id="event-122232001" data-ancestor-guid="bf5ca523adbf4dbaa2d64e29bdadf0cb" data-ancestor-name="熟悉 Tower" data-ancestor-url="/projects/bf5ca523adbf4dbaa2d64e29bdadf0cb">
+
+        <a href="/members/<%= item[:uid] %>" class="from" target="_blank"><img alt="<%= item[:uname] %>" class="avatar" src="<%= item[:avatar] %>"></a>
+        <i class="icon-event"></i>
+
+        <div class="event-main">
+          <div class="event-head">
+            <a href="#event-122232001" data-created-at="2017-06-10T12:35:21+08:00" class="event-created-at"><%= item[:time] %></a>
+            <span class="event-actor">
+              <a href="/members/<%= item[:uid] %>" class="link-member" target="_blank"><%= item[:uname] %></a>
+            </span>
+            <span class="event-action">
+              <%= item[:action] %>
+            </span>
+            <span class="event-text">
+              <span class="emphasize">
+                <a href="<%= item[:burl] %>" class="todo-rest" data-stack="true"><%= item[:bname] %></a>
               </span>
-              <span class="event-action">
-                删除了任务
-              </span>
-              <span class="event-text">
-                <span class="emphasize">
-                  <em class="priority">!!!</em>  <a href="/projects/bf5ca523adbf4dbaa2d64e29bdadf0cb/todos/1ec50305b9394f3ba2436316e02eda46" class="todo-rest" data-stack="true">创建你的第一个项目</a>
-                </span>
-              </span>
-            </div>
+            </span>
           </div>
-    </div></div></div>
-    </div><div class="events-day" data-absdate="2017-06-09T00:00:00+08:00">
-    <h4 class="events-day-title">昨</h4>
-    <div class="events-day-content">
-      <div class="events-ancestor" data-ancestor-guid="9d45ed03a2084f2fb398984389ff2602">
-        <h5 class="events-ancestor-title">
-          <a href="/teams/9d45ed03a2084f2fb398984389ff2602" target="_blank" title="测试专用">测试专用</a>
-        </h5>
-        <div class="event event-common event-team-add" id="event-122099723" data-ancestor-guid="9d45ed03a2084f2fb398984389ff2602" data-ancestor-name="测试专用" data-ancestor-url="/teams/9d45ed03a2084f2fb398984389ff2602">
-
-          <a href="/members/3d0dda52107b4b3da59a8f282af54534" class="from" target="_blank"><img alt="Ruchee" class="avatar" src="https://avatar.tower.im/dbc50dc94a73422cab94729d4fd9f8aa"></a>
-          <i class="icon-event"></i>
-
-          <div class="event-main">
-            <div class="event-head">
-              <a href="#event-122099723" data-created-at="2017-06-09T15:12:08+08:00" class="event-created-at">15:12</a>
-              <span class="event-actor">
-                <a href="/members/3d0dda52107b4b3da59a8f282af54534" class="link-member" target="_blank">Ruchee</a>
-              </span>
-              <span class="event-action">
-                创建了团队
-              </span>
-              <span class="event-text">
-                <span class="emphasize">
-                  测试专用
-                </span>
-              </span>
+          <% if item[:bcontent] %>
+            <div class="event-body">
+              <a href="<%= item[:burl] %>" class="event-text" data-stack="true" title="<%= item[:bcontent] %>"><%= item[:bcontent] %></a>
             </div>
-          </div>
+          <% end %>
         </div>
       </div>
-    </div>
-  </div>
+    <% end %>
+
+  <% end %>
 
 </div>
 

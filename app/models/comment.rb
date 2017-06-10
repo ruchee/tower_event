@@ -27,12 +27,10 @@ class Comment < ApplicationRecord
   private
 
   def new_create_event
-    # 此处只简单考虑了针对 Todo 这一个模型的评论
-    if self.subject_model == 'Todo'
-      todo_project = Todo.find(self.subject_id)&.project
-      project_id, team_id = todo_project&.id, todo_project&.team_id
+    item = self.subject_model.constantize.find(self.subject_id)
+    project = item&.project
+    project_id, team_id = project&.id, project&.team_id
 
-      Event.create_new(uid: self.user_id, a: 'create', amodel: 'Comment', aid: self.id, pid: project_id, tid: team_id)
-    end
+    Event.create_new(uid: self.user_id, a: 'comment', amodel: 'Comment', aid: self.id, aname: item.name, pid: project_id, tid: team_id)
   end
 end

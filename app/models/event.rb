@@ -11,6 +11,8 @@
 #  team_id      :uuid             not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  content      :string
+#  action_name  :string           not null
 #
 # Indexes
 #
@@ -30,8 +32,10 @@ class Event < ApplicationRecord
         action: info[:a],
         action_model: info[:amodel],
         action_id: info[:aid],
+        action_name: info[:aname],
+        content: info[:content],
         project_id: info[:pid],
-        team_id: info[:tid]
+        team_id: info[:tid],
       )
     end
   end

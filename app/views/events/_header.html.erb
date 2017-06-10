@@ -1,0 +1,66 @@
+<div class="wrapper">
+
+  <div class="header">
+    <h1 class="logo">
+      <a href="javascript:;" class="link-team-menu">
+        <span class="name"><%= @current_team.name %></span>
+      </a>
+    </h1>
+
+    <ul class="nav">
+      <li class="" id="nav-project">
+        <a href="/teams/9d45ed03a2084f2fb398984389ff2602/projects" data-stack="" data-stack-root="">项目</a>
+      </li>
+      <li class="active" id="nav-events">
+        <a href="/teams/9d45ed03a2084f2fb398984389ff2602/events" data-stack="" data-stack-root="">动态</a>
+      </li>
+      <li class="" id="nav-calendar">
+        <a href="/teams/9d45ed03a2084f2fb398984389ff2602/calendars" data-stack="" data-stack-fluid="" data-stack-root="">日历</a>
+      </li>
+
+      <li class="" id="nav-week">
+        <a href="/teams/9d45ed03a2084f2fb398984389ff2602/weekly_reports" data-stack="" data-stack-root="">周报</a>
+      </li>
+
+      <li class="" id="nav-members">
+        <a href="/teams/9d45ed03a2084f2fb398984389ff2602/members" data-stack="" data-stack-root="">团队</a>
+      </li>
+      <li class="" id="nav-me">
+        <a href="/members/3d0dda52107b4b3da59a8f282af54534?me=1" data-stack="" data-stack-root="">我自己</a>
+      </li>
+
+      <li>
+        <a href="javascript:;" id="link-zhirenhr-dialog">知人</a>
+      </li>
+
+    </ul>
+
+    <div class="command-bar">
+      <div class="search-wrap">
+        <a href="javascript:;" class="link-search" title="搜索"><i class="twr twr-search"></i></a>
+        <form id="form-search" class="form" method="get" action="/teams/9d45ed03a2084f2fb398984389ff2602/search">
+          <input id="txt-search" type="text" class="keyword no-border" name="keyword" placeholder="搜索" autocomplete="off">
+        </form>
+      </div>
+
+      <div class="notification-info">
+        <a href="javascript:;" id="notification-count" class="label " title="新的通知" data-unread-count="0" data-url="/teams/9d45ed03a2084f2fb398984389ff2602/notifications/unread_counts">
+          <span class="twr twr-bell-o bell"></span>
+          <span class="num">0</span>
+        </a>
+      </div>
+      <div class="account-info">
+        <div class="member-settings">
+          <a class="link-member-menu" href="javascript:;" title="<%= @current_user.nickname %>">
+            <img class="avatar" src="<%= @current_user.avatar %>" alt="<%= @current_user.nickname %>">
+            <span class="twr twr-caret-down"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container workspace simple-stack simple-stack-transition"><div class="page page-root simple-pjax"><div class="page-inner" id="page-events" data-page-name="动态" data-since="2017-06-10 04:35:26 UTC">
+        <div class="filters">
+          <span class="filters-title">筛选动态</span>
+        </div>

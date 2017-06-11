@@ -11,8 +11,8 @@ COPY . $APP_HOME
 ENV RAILS_ENV production
 ENV SECRET_KEY_BASE e172b7dec03898920543f6fe61df44a8dde0ff8e92b7a552c6e38b4db565b6160faf4b56d600cb05343641fac6bd59c12a89f920cfaceac4cb5e8f9df764b85d
 
-RUN bundle install
-# RUN bundle install --local
+# RUN bundle install
+RUN bundle install --local
 
 EXPOSE 3000
 

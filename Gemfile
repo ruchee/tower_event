@@ -21,7 +21,7 @@ gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 gem 'turbolinks', '~> 5'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
+# gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
@@ -34,8 +34,8 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '~> 2.13'
-  gem 'selenium-webdriver'
+  # gem 'capybara', '~> 2.13'
+  # gem 'selenium-webdriver'
 
   # 更好的打印呈现
   gem 'awesome_print', '~> 1.7.0'
@@ -44,6 +44,9 @@ group :development, :test do
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-doc', '~> 0.10.0'
   gem 'pry-byebug', '~> 3.4.2'
+
+  # Rspec 测试
+  gem 'rspec-rails', '~> 3.6.0'
 end
 
 group :development do

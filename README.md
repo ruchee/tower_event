@@ -1,5 +1,8 @@
-# Tower Event
+![one](https://raw.github.com/ruchee/tower_event/master/.github/one.jpg)
+![two](https://raw.github.com/ruchee/tower_event/master/.github/two.jpg)
+
 ----
+
 构建镜像
 ```
 docker-compose build
@@ -15,4 +18,8 @@ docker-compose up -d
 docker-compose run web rake db:migrate db:seed
 ```
 
-访问地址：`http://localhost:3000`（如果是用的 `boot2docker`，则使用 `boot2docker ip` 输出的 `IP` 地址替换 `localhost`）
+访问地址：`http://localhost:3000`
+
+如果是用的 `boot2docker`，则使用 `boot2docker ip` 输出的 `IP` 地址替换 `localhost`
+
+----

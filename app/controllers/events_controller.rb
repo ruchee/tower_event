@@ -3,31 +3,13 @@ class EventsController < ApplicationController
 
   # 动态首页
   def index
-    @data = []
+    @data = common(1)
+  end
 
-    events = Event.includes(:user).limit(50).order(created_at: :desc)
-    events.each do |event|
-      project = event.project_id ? Project.find(event.project_id) : nil
-      user = event.user
-      time = event.created_at
-
-      item = {
-        uid: user.id,
-        uname: user.nickname,
-        avatar: user.avatar,
-        action: calc_action_text(event),
-        pid: project&.id,
-        pname: project&.name,
-        date: "#{time.year}#{time.month}#{time.day}",
-        time: "#{time.hour}:#{time.min}",
-        show_date: calc_show_date(time)
-      }
-      item.merge!(calc_body(event))
-
-      ap item
-
-      @data << item
-    end
+  # 加载更多
+  def more
+    @data = common(params[:page])
+    render layout: false
   end
 
   private
@@ -81,6 +63,34 @@ class EventsController < ApplicationController
     <<-HEREDOC
     <span class="date">#{time.month}/#{time.day}</span><span class="day">周#{time.wday}</span>
     HEREDOC
+  end
+
+  def common(page = 1)
+    data = []
+
+    events = Event.includes(:user).order(created_at: :desc).page(page).per(50)
+    events.each do |event|
+      project = event.project_id ? Project.find(event.project_id) : nil
+      user = event.user
+      time = event.created_at
+
+      item = {
+        uid: user.id,
+        uname: user.nickname,
+        avatar: user.avatar,
+        action: calc_action_text(event),
+        pid: project&.id,
+        pname: project&.name,
+        date: "#{time.year}#{time.month}#{time.day}",
+        time: "#{time.hour}:#{time.min}",
+        show_date: calc_show_date(time)
+      }
+      item.merge!(calc_body(event))
+
+      data << item
+    end
+
+    data
   end
 
 end
